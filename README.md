@@ -1,71 +1,38 @@
-# gtm-f541 README
+# Git Time Machine
 
-This is the README for your extension "gtm-f541". After writing up a brief description, we recommend including the following sections.
+Step through a file's Git history right from the editor toolbar, without leaving the file you're working on.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+Three buttons appear in the editor title bar (top-right) for any file tracked in a Git repository:
 
-For example if there is an image subfolder under your extension project workspace:
+- **Previous** (`←`) — open a diff of the current file against an ever-older revision. Each click steps one revision further back in time.
+- **Current** (`●`) — jump straight back to the live working file. Disabled until you've gone back.
+- **Next** (`→`) — step one revision forward through history. Disabled until you've gone back.
 
-\!\[feature X\]\(images/feature-x.png\)
+The diff shows the historical revision on the left (`filename (sha)`) and your current working file on the right.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+When the working tree is clean, the first **Previous** click lands on the genuinely previous version (the most recent commit's content is identical to the file on disk, so it's skipped). When you have uncommitted changes, the first **Previous** click compares them against `HEAD`.
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- `git` must be available on your `PATH`.
+- The file must live inside a Git repository.
 
-## Extension Settings
+## How it works
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+The extension resolves historical file contents with `git show <sha>:<path>` through a read-only virtual document provider, and renders comparisons using VS Code's built-in diff editor. File history is collected with `git log --follow`, so renames are tracked in the history list.
 
-For example:
+## Known limitations
 
-This extension contributes the following settings:
+- Loading a revision from *before* a rename may fail, because the revision is read using the file's current path.
+- History is read once per file and refreshed when the file is saved.
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+## Development
 
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+```bash
+npm install
+npm run watch   # build in watch mode, then press F5 to launch the Extension Dev Host
+npm run package # production build
+npm run package:vsix  # produce an installable .vsix
+```

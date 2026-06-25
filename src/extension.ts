@@ -34,6 +34,7 @@ interface Session {
 
 const sessions = new Map<string, Session>();
 const repoRootCache = new Map<string, string | undefined>();
+
 let lastFileFsPath: string | undefined;
 
 /** Resolves the contents of a `gtm-timemachine:` URI by asking Git for that revision. */
@@ -69,11 +70,13 @@ function revisionUri(repoRoot: string, sha: string, relPath: string): vscode.Uri
  */
 function activeFilePath(): string | undefined {
   const editor = vscode.window.activeTextEditor;
+
   if (editor && editor.document.uri.scheme === 'file') {
     return editor.document.uri.fsPath;
   }
 
   const input = vscode.window.tabGroups.activeTabGroup.activeTab?.input;
+
   if (input instanceof vscode.TabInputTextDiff) {
     if (input.modified.scheme === 'file') {
       return input.modified.fsPath;
@@ -88,22 +91,28 @@ function activeFilePath(): string | undefined {
 
 async function resolveRepoRoot(fileFsPath: string): Promise<string | undefined> {
   const dir = path.dirname(fileFsPath);
+
   if (repoRootCache.has(dir)) {
     return repoRootCache.get(dir);
   }
+
   const root = await getRepoRoot(fileFsPath);
+
   repoRootCache.set(dir, root);
+
   return root;
 }
 
 /** Loads (and caches) the session for a file, preserving the position if already tracked. */
 async function ensureSession(fileFsPath: string): Promise<Session | undefined> {
   const root = await resolveRepoRoot(fileFsPath);
+
   if (!root) {
     return undefined;
   }
 
   const existing = sessions.get(fileFsPath);
+
   if (existing) {
     return existing;
   }
@@ -123,7 +132,9 @@ async function ensureSession(fileFsPath: string): Promise<Session | undefined> {
   }
 
   const session: Session = { fileFsPath, repoRoot: root, relPath, timeline, position: 0 };
+
   sessions.set(fileFsPath, session);
+
   return session;
 }
 
@@ -136,12 +147,14 @@ function setContext(enabled: boolean, canPrev: boolean, canCurrent: boolean, can
 
 async function updateContext(): Promise<void> {
   const fileFsPath = activeFilePath();
+
   if (!fileFsPath) {
     setContext(false, false, false, false);
     return;
   }
 
   const session = await ensureSession(fileFsPath);
+
   if (!session) {
     setContext(false, false, false, false);
     return;
@@ -150,6 +163,7 @@ async function updateContext(): Promise<void> {
   const canPrev = session.position < session.timeline.length;
   const canCurrent = session.position > 0;
   const canNext = session.position > 0;
+
   setContext(true, canPrev, canCurrent, canNext);
 }
 
@@ -171,17 +185,20 @@ async function showView(session: Session): Promise<void> {
 
 async function withSession(action: (session: Session) => void): Promise<void> {
   const fileFsPath = activeFilePath();
+
   if (!fileFsPath) {
     return;
   }
 
   const session = await ensureSession(fileFsPath);
+
   if (!session) {
     void vscode.window.showInformationMessage('Git Time Machine: this file is not in a Git repository.');
     return;
   }
 
   action(session);
+
   await showView(session);
   await updateContext();
 }
@@ -214,6 +231,7 @@ async function goNext(): Promise<void> {
 
 export function activate(context: vscode.ExtensionContext): void {
   const initial = vscode.window.activeTextEditor;
+
   if (initial?.document.uri.scheme === 'file') {
     lastFileFsPath = initial.document.uri.fsPath;
   }

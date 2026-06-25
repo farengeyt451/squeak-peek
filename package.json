@@ -2,8 +2,9 @@
   "name": "gtm-f541",
   "displayName": "git-time-machine",
   "description": "Step through a file's Git history with prev / current / next buttons.",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "publisher": "farengeyt451",
+  "icon": "images/icon.png",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -25,19 +26,19 @@
       {
         "command": "gtm.prev",
         "title": "Git Time Machine: Previous Revision",
-        "icon": "$(arrow-left)",
+        "icon": "$(chevron-left)",
         "enablement": "gtm:canPrev"
       },
       {
         "command": "gtm.current",
         "title": "Git Time Machine: Current (Working) File",
-        "icon": "$(circle-filled)",
+        "icon": "$(octoface)",
         "enablement": "gtm:canCurrent"
       },
       {
         "command": "gtm.next",
         "title": "Git Time Machine: Next Revision",
-        "icon": "$(arrow-right)",
+        "icon": "$(chevron-right)",
         "enablement": "gtm:canNext"
       }
     ],

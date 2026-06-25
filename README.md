@@ -1,38 +1,66 @@
+<div align="center">
+
+<img src="images/icon.png" alt="Git Time Machine" width="128" height="128" />
+
 # Git Time Machine
 
-Step through a file's Git history right from the editor toolbar, without leaving the file you're working on.
+**Travel through any file's Git history**
+
+Three toolbar buttons — **◄ Previous · ● Current · Next ►** — let you step backward and forward through a file's commits and instantly diff each revision against your working copy.
+
+![VS Code](https://img.shields.io/badge/VS%20Code-%5E1.125.0-007ACC?logo=visualstudiocode&logoColor=white)
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+
+</div>
+
+---
+
+## Why Git Time Machine?
+
+See how any file changed over time - without leaving the editor. Open a file, then use the **◄ ● ►** buttons in the title bar to jump backward and forward through its history and diff each revision against your current copy.
 
 ## Features
 
-Three buttons appear in the editor title bar (top-right) for any file tracked in a Git repository:
+| Button | Icon | What it does |
+| --- | :---: | --- |
+| **Previous** | ◄ | Diffs your file against an ever-older revision. Each click steps one commit further back in time. |
+| **Current** | ● | Jumps straight back to the live working file. Disabled until you've travelled back. |
+| **Next** | ► | Steps one revision forward through history. Disabled until you've travelled back. |
 
-- **Previous** (`←`) — open a diff of the current file against an ever-older revision. Each click steps one revision further back in time.
-- **Current** (`●`) — jump straight back to the live working file. Disabled until you've gone back.
-- **Next** (`→`) — step one revision forward through history. Disabled until you've gone back.
+- **Side-by-side diffs** — the historical revision (`filename (sha)`) on the left, your current file on the right.
+- **Smart first step** — with a clean working tree, the first **Previous** click lands on the genuinely previous version (it skips the commit that's identical to your file). With uncommitted changes, it compares them against `HEAD` first.
+- **Rename-aware history** — file history is collected with `git log --follow`, so renames are tracked.
+- **Zero configuration** — no settings, no setup. It just works in any Git repository.
 
-The diff shows the historical revision on the left (`filename (sha)`) and your current working file on the right.
+## Installation
 
-When the working tree is clean, the first **Previous** click lands on the genuinely previous version (the most recent commit's content is identical to the file on disk, so it's skipped). When you have uncommitted changes, the first **Previous** click compares them against `HEAD`.
+### From a release (`.vsix`)
+
+1. Download the latest `git-time-machine-vX.Y.Z.vsix` from the [Releases page](https://github.com/farengeyt451/git-time-machine/releases).
+2. In VS Code, open the **Extensions** view (`Ctrl+Shift+X` / `Cmd+Shift+X`).
+3. Click the **⋯** menu → **Install from VSIX…** and select the downloaded file.
+
+> Or from the terminal: `code --install-extension git-time-machine-vX.Y.Z.vsix`
+
+### From source
+
+```bash
+git clone https://github.com/farengeyt451/git-time-machine.git
+cd git-time-machine
+npm install
+npm run watch     # then press F5 to launch the Extension Development Host
+```
 
 ## Requirements
 
-- `git` must be available on your `PATH`.
-- The file must live inside a Git repository.
-
-## How it works
-
-The extension resolves historical file contents with `git show <sha>:<path>` through a read-only virtual document provider, and renders comparisons using VS Code's built-in diff editor. File history is collected with `git log --follow`, so renames are tracked in the history list.
+- [Git](https://git-scm.com/) installed and available on your `PATH`.
+- The file you're viewing must be inside a Git repository.
 
 ## Known limitations
 
-- Loading a revision from *before* a rename may fail, because the revision is read using the file's current path.
+- Opening a revision from *before* a rename may fail, because the revision is read using the file's current path.
 - History is read once per file and refreshed when the file is saved.
 
-## Development
+## License
 
-```bash
-npm install
-npm run watch   # build in watch mode, then press F5 to launch the Extension Dev Host
-npm run package # production build
-npm run package:vsix  # produce an installable .vsix
-```
+Released under the [MIT License](LICENSE).

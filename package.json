@@ -46,17 +46,17 @@
       "editor/title": [
         {
           "command": "gtm.prev",
-          "group": "navigation@1",
+          "group": "navigation@101",
           "when": "gtm:enabled"
         },
         {
           "command": "gtm.current",
-          "group": "navigation@2",
+          "group": "navigation@102",
           "when": "gtm:enabled"
         },
         {
           "command": "gtm.next",
-          "group": "navigation@3",
+          "group": "navigation@103",
           "when": "gtm:enabled"
         }
       ]

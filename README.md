@@ -21,13 +21,14 @@ See how any file changed over time - without leaving the editor. Open a file, th
 
 ## Features
 
-| Button | Icon | What it does |
-| --- | :---: | --- |
-| **Previous** | ◄ | Diffs your file against an ever-older revision. Each click steps one commit further back in time. |
-| **History** | ⟳ | Opens a picker showing where you are in the file's history — jump straight to any revision, copy its full SHA, and see how far behind HEAD you are. |
-| **Next** | ► | Steps one revision forward through history. Disabled until you've travelled back. |
+| Button       | Icon | What it does                                                                                                                                        |
+| ------------ | :--: | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Previous** |  ◄   | Diffs your file against an ever-older revision. Each click steps one commit further back in time.                                                   |
+| **History**  |  ⟳   | Opens a picker showing where you are in the file's history — jump straight to any revision, copy its full SHA, and see how far behind HEAD you are. |
+| **Next**     |  ►   | Steps one revision forward through history. Disabled until you've travelled back.                                                                   |
 
-- **Status-bar position** — an ambient `⟳ 3 behind HEAD (3/12)` readout shows where you are at a glance; click it to open the history picker.
+- **Status-bar position** — an ambient `3 behind HEAD (3/12)` readout shows where you are at a glance; hover it for the HEAD and current revision SHAs, or click to open the history picker.
+- **Visual timeline** — the history picker's title shows a compact `○─◉─○ …` strip marking your position among all revisions.
 - **Closing a diff resets** — shut the diff tab and the next **Previous** click starts one commit back again, not from where you left off.
 - **Side-by-side diffs** — the historical revision (`filename (sha)`) on the left, your current file on the right.
 - **Smart first step** — with a clean working tree, the first **Previous** click lands on the genuinely previous version (it skips the commit that's identical to your file). With uncommitted changes, it compares them against `HEAD` first.
@@ -60,7 +61,7 @@ npm run watch     # then press F5 to launch the Extension Development Host
 
 ## Known limitations
 
-- Opening a revision from *before* a rename may fail, because the revision is read using the file's current path.
+- Opening a revision from _before_ a rename may fail, because the revision is read using the file's current path.
 - History is read once per file and refreshed when the file is saved.
 
 ## License

@@ -30,12 +30,12 @@ jobs:
         run: npm run check-types && npm run lint
 
       - name: Package VSIX
-        run: npx vsce package --no-dependencies --out "git-time-machine-${{ github.ref_name }}.vsix"
+        run: npx vsce package --no-dependencies --out "squeak-peek-${{ github.ref_name }}.vsix"
 
       - name: Upload VSIX artifact
         uses: actions/upload-artifact@v4
         with:
-          name: git-time-machine-${{ github.ref_name }}
+          name: squeak-peek-${{ github.ref_name }}
           path: '*.vsix'
           if-no-files-found: error
 

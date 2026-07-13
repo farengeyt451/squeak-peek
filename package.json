@@ -1,25 +1,25 @@
 {
-  "name": "git-time-machine",
-  "displayName": "Git Time Machine",
+  "name": "squeak-peek",
+  "displayName": "Squeak Peek",
   "description": "Travel through any file's Git history - step backward and forward through commits and diff each revision against your working copy.",
   "version": "1.0.3",
   "publisher": "farengeyt451",
   "icon": "images/icon.png",
   "license": "MIT",
-  "homepage": "https://github.com/farengeyt451/git-time-machine#readme",
+  "homepage": "https://github.com/farengeyt451/squeak-peek#readme",
   "bugs": {
-    "url": "https://github.com/farengeyt451/git-time-machine/issues"
+    "url": "https://github.com/farengeyt451/squeak-peek/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/farengeyt451/git-time-machine.git"
+    "url": "https://github.com/farengeyt451/squeak-peek.git"
   },
   "keywords": [
     "git",
     "history",
     "diff",
     "blame",
-    "time machine",
+    "squeak peek",
     "revision",
     "log",
     "compare"
@@ -38,64 +38,64 @@
   "contributes": {
     "commands": [
       {
-        "command": "gtm.prev",
-        "title": "Git Time Machine: Previous Revision",
+        "command": "squeakPeek.prev",
+        "title": "Squeak Peek: Previous Revision",
         "icon": "$(chevron-left)",
-        "enablement": "gtm:canPrev"
+        "enablement": "squeakPeek:canPrev"
       },
       {
-        "command": "gtm.current",
-        "title": "Git Time Machine: Show Position in History",
+        "command": "squeakPeek.current",
+        "title": "Squeak Peek: Show Position in History",
         "icon": {
-          "light": "images/gtm-icon-light.svg",
-          "dark": "images/gtm-icon-dark.svg"
+          "light": "images/squeak-peek-light.svg",
+          "dark": "images/squeak-peek-dark.svg"
         },
-        "enablement": "gtm:enabled"
+        "enablement": "squeakPeek:enabled"
       },
       {
-        "command": "gtm.next",
-        "title": "Git Time Machine: Next Revision",
+        "command": "squeakPeek.next",
+        "title": "Squeak Peek: Next Revision",
         "icon": "$(chevron-right)",
-        "enablement": "gtm:canNext"
+        "enablement": "squeakPeek:canNext"
       }
     ],
     "menus": {
       "editor/title": [
         {
-          "command": "gtm.prev",
+          "command": "squeakPeek.prev",
           "group": "navigation@101",
-          "when": "gtm:enabled"
+          "when": "squeakPeek:enabled"
         },
         {
-          "command": "gtm.current",
+          "command": "squeakPeek.current",
           "group": "navigation@102",
-          "when": "gtm:enabled"
+          "when": "squeakPeek:enabled"
         },
         {
-          "command": "gtm.next",
+          "command": "squeakPeek.next",
           "group": "navigation@103",
-          "when": "gtm:enabled"
+          "when": "squeakPeek:enabled"
         }
       ]
     },
     "keybindings": [
       {
-        "command": "gtm.prev",
+        "command": "squeakPeek.prev",
         "key": "ctrl+alt+,",
         "mac": "ctrl+cmd+,",
-        "when": "editorTextFocus && gtm:canPrev"
+        "when": "editorTextFocus && squeakPeek:canPrev"
       },
       {
-        "command": "gtm.current",
+        "command": "squeakPeek.current",
         "key": "ctrl+alt+/",
         "mac": "ctrl+cmd+/",
-        "when": "editorTextFocus && gtm:enabled"
+        "when": "editorTextFocus && squeakPeek:enabled"
       },
       {
-        "command": "gtm.next",
+        "command": "squeakPeek.next",
         "key": "ctrl+alt+.",
         "mac": "ctrl+cmd+.",
-        "when": "editorTextFocus && gtm:canNext"
+        "when": "editorTextFocus && squeakPeek:canNext"
       }
     ]
   },

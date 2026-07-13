@@ -1,6 +1,6 @@
 # Change Log
 
-All notable changes to the **Git Time Machine** extension are documented in this file.
+All notable changes to the **Squeak Peek** extension are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 project adheres to [Semantic Versioning](https://semver.org/).
@@ -44,8 +44,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 ### Changed
 
 - Renamed the **History** command from _"Current (Working) File"_ to _"Show Position
-  in History"_ and made it always available (`gtm:enabled`) rather than gated behind a
-  separate `gtm:canCurrent` context.
+  in History"_ and made it always available (`squeakPeek:enabled`) rather than gated behind a
+  separate `squeakPeek:canCurrent` context.
 - Clearer toolbar button descriptions and history picker labels (relative position,
   parent commit, copyable full SHA).
 
@@ -65,7 +65,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- Initial release of Git Time Machine.
+- Initial release of Squeak Peek.
 - **Previous / History / Next** toolbar buttons to step backward and forward through a
   file's Git history and diff each revision against the working copy.
 - Side-by-side diffs of a historical revision against the current file.
@@ -75,8 +75,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - History quick-pick to jump to any revision and copy its full SHA.
 - Zero configuration - works in any Git repository.
 
-[1.0.3]: https://github.com/farengeyt451/git-time-machine/releases/tag/v1.0.3
-[1.0.2]: https://github.com/farengeyt451/git-time-machine/releases/tag/v1.0.2
-[1.0.1]: https://github.com/farengeyt451/git-time-machine/releases/tag/v1.0.1
-[1.0.0]: https://github.com/farengeyt451/git-time-machine/releases/tag/v1.0.0
-[0.0.1]: https://github.com/farengeyt451/git-time-machine/releases/tag/v0.0.1
+[1.0.3]: https://github.com/farengeyt451/squeak-peek/releases/tag/v1.0.3
+[1.0.2]: https://github.com/farengeyt451/squeak-peek/releases/tag/v1.0.2
+[1.0.1]: https://github.com/farengeyt451/squeak-peek/releases/tag/v1.0.1
+[1.0.0]: https://github.com/farengeyt451/squeak-peek/releases/tag/v1.0.0
+[0.0.1]: https://github.com/farengeyt451/squeak-peek/releases/tag/v0.0.1

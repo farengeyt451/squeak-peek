@@ -12,7 +12,7 @@ import {
 } from './git';
 
 /** Custom URI scheme used for read-only historical file revisions. */
-const SCHEME = 'gtm-timemachine';
+const SCHEME = 'squeak-peek';
 
 const SHA_SHORTENED_LENGTH = 7;
 
@@ -45,7 +45,7 @@ const repoRootCache = new Map<string, string | undefined>();
 
 let lastFileFsPath: string | undefined;
 
-/** Resolves the contents of a `gtm-timemachine:` URI by asking Git for that revision. */
+/** Resolves the contents of a `squeak-peek:` URI by asking Git for that revision. */
 class RevisionContentProvider implements vscode.TextDocumentContentProvider {
   async provideTextDocumentContent(uri: vscode.Uri): Promise<string> {
     const { repoRoot, sha } = JSON.parse(decodeURIComponent(uri.query)) as {
@@ -57,7 +57,7 @@ class RevisionContentProvider implements vscode.TextDocumentContentProvider {
       return await getFileAtRevision(repoRoot, sha, relPath);
     } catch (e) {
       const message = e instanceof Error ? e.message : String(e);
-      return `// Git Time Machine: could not load "${relPath}" at ${sha.slice(0, 8)}.\n// ${message}`;
+      return `// Squeak Peek: could not load "${relPath}" at ${sha.slice(0, 8)}.\n// ${message}`;
     }
   }
 }
@@ -151,9 +151,9 @@ async function ensureSession(fileFsPath: string): Promise<Session | undefined> {
 let statusBarItem: vscode.StatusBarItem | undefined;
 
 function setContext(enabled: boolean, canPrev: boolean, canNext: boolean): void {
-  void vscode.commands.executeCommand('setContext', 'gtm:enabled', enabled);
-  void vscode.commands.executeCommand('setContext', 'gtm:canPrev', canPrev);
-  void vscode.commands.executeCommand('setContext', 'gtm:canNext', canNext);
+  void vscode.commands.executeCommand('setContext', 'squeakPeek:enabled', enabled);
+  void vscode.commands.executeCommand('setContext', 'squeakPeek:canPrev', canPrev);
+  void vscode.commands.executeCommand('setContext', 'squeakPeek:canNext', canNext);
 }
 
 /** How many commits back from HEAD the given position lands on. */
@@ -203,7 +203,7 @@ function updateStatusBar(session: Session | undefined): void {
   }
   statusBarItem.text = `$(history) ${positionLabel(session)}`;
   const tip = new vscode.MarkdownString(undefined, true);
-  tip.appendMarkdown('**Git Time Machine**\n\n');
+  tip.appendMarkdown('**Squeak Peek**\n\n');
   if (session.head) {
     tip.appendMarkdown(`HEAD → \`${session.head.sha}\`\n\n`);
   }
@@ -281,7 +281,7 @@ async function withSession(action: (session: Session) => void): Promise<void> {
   const session = await ensureSession(fileFsPath);
 
   if (!session) {
-    void vscode.window.showInformationMessage('Git Time Machine: this file is not in a Git repository.');
+    void vscode.window.showInformationMessage('Squeak Peek: this file is not in a Git repository.');
     return;
   }
 
@@ -293,7 +293,7 @@ async function withSession(action: (session: Session) => void): Promise<void> {
 async function goPrevious(): Promise<void> {
   await withSession((session) => {
     if (session.timeline.length === 0) {
-      void vscode.window.showInformationMessage('Git Time Machine: no previous revision for this file.');
+      void vscode.window.showInformationMessage('Squeak Peek: no previous revision for this file.');
       return;
     }
     if (session.position < session.timeline.length) {
@@ -353,18 +353,18 @@ async function showHistory(): Promise<void> {
   const session = await ensureSession(fileFsPath);
 
   if (!session) {
-    void vscode.window.showInformationMessage('Git Time Machine: this file is not in a Git repository.');
+    void vscode.window.showInformationMessage('Squeak Peek: this file is not in a Git repository.');
     return;
   }
 
   if (session.timeline.length === 0) {
-    void vscode.window.showInformationMessage('Git Time Machine: no history for this file yet.');
+    void vscode.window.showInformationMessage('Squeak Peek: no history for this file yet.');
     return;
   }
 
   const qp = vscode.window.createQuickPick<HistoryItem>();
   const strip = timelineStrip(session);
-  qp.title = `Git Time Machine - ${positionLabel(session)}${strip ? `   ${strip}` : ''}`;
+  qp.title = `Squeak Peek - ${positionLabel(session)}${strip ? `   ${strip}` : ''}`;
   qp.placeholder = 'Select a revision to open it · use the copy icon to copy its full SHA';
   qp.matchOnDescription = true;
   qp.matchOnDetail = true;
@@ -536,7 +536,7 @@ export function activate(context: vscode.ExtensionContext): void {
   }
 
   statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-  statusBarItem.command = 'gtm.current';
+  statusBarItem.command = 'squeakPeek.current';
 
   blameDecoration = vscode.window.createTextEditorDecorationType({
     after: {
@@ -558,9 +558,9 @@ export function activate(context: vscode.ExtensionContext): void {
       }
     }),
     vscode.workspace.registerTextDocumentContentProvider(SCHEME, new RevisionContentProvider()),
-    vscode.commands.registerCommand('gtm.prev', goPrevious),
-    vscode.commands.registerCommand('gtm.current', showHistory),
-    vscode.commands.registerCommand('gtm.next', goNext),
+    vscode.commands.registerCommand('squeakPeek.prev', goPrevious),
+    vscode.commands.registerCommand('squeakPeek.current', showHistory),
+    vscode.commands.registerCommand('squeakPeek.next', goNext),
     vscode.window.onDidChangeActiveTextEditor((editor) => {
       if (editor?.document.uri.scheme === 'file') {
         lastFileFsPath = editor.document.uri.fsPath;

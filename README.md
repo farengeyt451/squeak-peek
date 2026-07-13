@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/farengeyt451/git-time-machine/master/images/icon.png" alt="Git Time Machine" width="128" height="128" />
+<img src="https://raw.githubusercontent.com/farengeyt451/squeak-peek/master/images/icon.png" alt="Squeak Peek" width="128" height="128" />
 
-# Git Time Machine
+# Squeak Peek
 
 **Travel through any file's Git history**
 
@@ -15,9 +15,9 @@
 
 ## See it in action
 
-![Git Time Machine demo](https://raw.githubusercontent.com/farengeyt451/git-time-machine/master/images/demo/demo.gif)
+![Squeak Peek demo](https://raw.githubusercontent.com/farengeyt451/squeak-peek/master/images/demo/demo.gif)
 
-## Why Git Time Machine?
+## Why Squeak Peek?
 
 I liked the **File History Travel** feature in the GitLens extension, until GitLens became bloatware. This is a reimplementation of that small but useful feature.
 
@@ -39,22 +39,22 @@ I liked the **File History Travel** feature in the GitLens extension, until GitL
 
 ### From a release (`.vsix`)
 
-1. Download the latest `git-time-machine-vX.Y.Z.vsix` from the [Releases page](https://github.com/farengeyt451/git-time-machine/releases).
+1. Download the latest `squeak-peek-vX.Y.Z.vsix` from the [Releases page](https://github.com/farengeyt451/squeak-peek/releases).
 2. In VS Code, open the **Extensions** view (`Ctrl+Shift+X` / `Cmd+Shift+X`).
 3. Click the **⋯** menu → **Install from VSIX…** and select the downloaded file.
 
-> Or from the terminal: `code --install-extension git-time-machine-vX.Y.Z.vsix`
+> Or from the terminal: `code --install-extension squeak-peek-vX.Y.Z.vsix`
 
 ### From source
 
 Build a `.vsix` straight from the source and install it into VS Code:
 
 ```bash
-git clone https://github.com/farengeyt451/git-time-machine.git
-cd git-time-machine
+git clone https://github.com/farengeyt451/squeak-peek.git
+cd squeak-peek
 npm install
-npm run package:vsix                                   # produces git-time-machine-<version>.vsix
-code --install-extension git-time-machine-*.vsix       # install the built package
+npm run package:vsix                                   # produces squeak-peek-<version>.vsix
+code --install-extension squeak-peek-*.vsix            # install the built package
 ```
 
 ## Requirements

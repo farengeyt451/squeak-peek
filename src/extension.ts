@@ -57,7 +57,7 @@ class RevisionContentProvider implements vscode.TextDocumentContentProvider {
       return await getFileAtRevision(repoRoot, sha, relPath);
     } catch (e) {
       const message = e instanceof Error ? e.message : String(e);
-      return `// Git Time Machine: could not load "${relPath}" at ${sha.slice(0, 7)}.\n// ${message}`;
+      return `// Git Time Machine: could not load "${relPath}" at ${sha.slice(0, 8)}.\n// ${message}`;
     }
   }
 }
@@ -245,7 +245,7 @@ async function showView(session: Session): Promise<void> {
   const commit = session.timeline[session.position - 1];
   const left = revisionUri(session.repoRoot, commit.sha, session.relPath);
   const base = path.basename(session.relPath);
-  const title = `${base} (${commit.sha.slice(0, 7)}) \u2194 ${base}`;
+  const title = `${base} (${commit.sha.slice(0, 8)}) \u2194 ${base}`;
   await vscode.commands.executeCommand('vscode.diff', left, fileUri, title, { preview: true });
 }
 
@@ -329,7 +329,7 @@ function buildHistoryItems(session: Session): HistoryItem[] {
     const behind = commitsBehindHead(session, position);
     const rel = behind === 0 ? 'HEAD' : `HEAD~${behind}`;
     const parent = session.timeline[i + 1];
-    const parentPart = parent ? `parent ${parent.sha.slice(0, 7)}` : 'root commit';
+    const parentPart = parent ? `parent ${parent.sha.slice(0, 8)}` : 'root commit';
     items.push({
       label: `${mark(position)}${commit.subject}`,
       description: `${commit.author} · ${commit.date}`,

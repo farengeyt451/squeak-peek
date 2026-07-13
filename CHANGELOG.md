@@ -5,6 +5,14 @@ All notable changes to the **Git Time Machine** extension are documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0.3] - 2026-07-13
+
+### Changed
+
+- Abbreviated commit SHAs now show 8 leading characters instead of 7 (in the diff title,
+  the history picker's parent reference, and load-error messages) for a bit more
+  collision safety in larger repositories.
+
 ## [1.0.2] - 2026-07-13
 
 ### Added
@@ -67,6 +75,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - History quick-pick to jump to any revision and copy its full SHA.
 - Zero configuration — works in any Git repository.
 
+[1.0.3]: https://github.com/farengeyt451/git-time-machine/releases/tag/v1.0.3
 [1.0.2]: https://github.com/farengeyt451/git-time-machine/releases/tag/v1.0.2
 [1.0.1]: https://github.com/farengeyt451/git-time-machine/releases/tag/v1.0.1
 [1.0.0]: https://github.com/farengeyt451/git-time-machine/releases/tag/v1.0.0

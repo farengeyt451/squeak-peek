@@ -10,6 +10,7 @@
 
 **Travel through any file's Git history**
 
+[![CI](https://github.com/farengeyt451/squeak-peek/actions/workflows/ci.yml/badge.svg)](https://github.com/farengeyt451/squeak-peek/actions/workflows/ci.yml)
 ![VS Code](https://img.shields.io/badge/VS%20Code-%5E1.125.0-007ACC?logo=visualstudiocode&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 

@@ -21,10 +21,6 @@
 
 I liked the **File History Travel** feature in the GitLens extension, until GitLens became bloatware. This is a reimplementation of that small but useful feature.
 
-## A closer look
-
-...
-
 ## Installation
 
 ### From a release (`.vsix`)

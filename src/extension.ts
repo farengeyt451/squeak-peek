@@ -14,6 +14,8 @@ import {
 /** Custom URI scheme used for read-only historical file revisions. */
 const SCHEME = 'gtm-timemachine';
 
+const SHA_SHORTENED_LENGTH = 7;
+
 /**
  * A time-travel session for a single working file.
  *
@@ -410,6 +412,11 @@ let blameDecoration: vscode.TextEditorDecorationType | undefined;
 /** Cached blame results keyed per revision (left) or per working file (right). */
 const blameCache = new Map<string, Promise<BlameLine[]>>();
 
+/** The first N digits of SHA commit */
+function truncatedSHA(sha: string): string {
+  return sha.slice(0, SHA_SHORTENED_LENGTH);
+}
+
 /** Human-friendly "N units ago" from an epoch-seconds timestamp. */
 function relativeTime(epochSeconds: number): string {
   const seconds = Math.max(0, Math.floor(Date.now() / 1000 - epochSeconds));
@@ -508,13 +515,11 @@ async function updateBlameFor(editor: vscode.TextEditor | undefined): Promise<vo
 
   const label = entry.uncommitted
     ? 'You · Uncommitted changes'
-    : `${entry.author}, ${relativeTime(entry.authorTime)} · ${entry.summary}`;
+    : `${entry.author} • ${relativeTime(entry.authorTime)} • ${truncatedSHA(entry.sha)}`;
 
   const eol = editor.document.lineAt(line).text.length;
   const range = new vscode.Range(line, eol, line, eol);
-  editor.setDecorations(blameDecoration, [
-    { range, renderOptions: { after: { contentText: label } } },
-  ]);
+  editor.setDecorations(blameDecoration, [{ range, renderOptions: { after: { contentText: label } } }]);
 }
 
 function updateAllVisibleBlame(): void {

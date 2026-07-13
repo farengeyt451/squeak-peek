@@ -1,10 +1,6 @@
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/farengeyt451/squeak-peek/master/images/squeak-peek-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/farengeyt451/squeak-peek/master/images/squeak-peek-light.svg" />
-  <img src="https://raw.githubusercontent.com/farengeyt451/squeak-peek/master/images/squeak-peek-dark.svg" alt="Squeak Peek" width="128" height="128" />
-</picture>
+  <img src="https://raw.githubusercontent.com/farengeyt451/squeak-peek/master/images/icon.png" alt="Squeak Peek" width="128" height="128" />
 
 # Squeak Peek
 

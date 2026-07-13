@@ -9,8 +9,13 @@ permissions:
   contents: write
 
 jobs:
+  ci:
+    name: CI
+    uses: ./.github/workflows/ci.yml
+
   release:
     name: Build and package VSIX
+    needs: ci
     runs-on: ubuntu-latest
 
     steps:
@@ -25,9 +30,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Lint and type-check
-        run: npm run check-types && npm run lint
 
       - name: Package VSIX
         run: npx vsce package --no-dependencies --out "squeak-peek-${{ github.ref_name }}.vsix"

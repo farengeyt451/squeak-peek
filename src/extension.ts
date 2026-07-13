@@ -1,7 +1,9 @@
 import * as path from 'path';
 import * as vscode from 'vscode';
 import {
+  BlameLine,
   CommitInfo,
+  getBlame,
   getFileAtRevision,
   getFileHistory,
   getRepoRoot,
@@ -259,6 +261,7 @@ async function renderSession(session: Session): Promise<void> {
   try {
     await showView(session);
     await updateContext();
+    updateAllVisibleBlame();
   } finally {
     setTimeout(() => {
       navigating = false;
@@ -396,6 +399,130 @@ async function goNext(): Promise<void> {
   });
 }
 
+/**
+ * Inline current-line blame, shown only inside the diff editors this extension
+ * opens (the third-party/built-in blame providers suppress themselves in diffs).
+ * The left pane is blamed as of its revision SHA; the right pane is blamed live
+ * against the working tree.
+ */
+let blameDecoration: vscode.TextEditorDecorationType | undefined;
+
+/** Cached blame results keyed per revision (left) or per working file (right). */
+const blameCache = new Map<string, Promise<BlameLine[]>>();
+
+/** Human-friendly "N units ago" from an epoch-seconds timestamp. */
+function relativeTime(epochSeconds: number): string {
+  const seconds = Math.max(0, Math.floor(Date.now() / 1000 - epochSeconds));
+  const units: [number, string][] = [
+    [60, 'second'],
+    [60, 'minute'],
+    [24, 'hour'],
+    [30, 'day'],
+    [12, 'month'],
+    [Number.POSITIVE_INFINITY, 'year'],
+  ];
+  let value = seconds;
+  let unit = 'second';
+  for (const [size, name] of units) {
+    if (value < size) {
+      unit = name;
+      break;
+    }
+    value = Math.floor(value / size);
+    unit = name;
+  }
+  if (unit === 'second' && value < 10) {
+    return 'just now';
+  }
+  return `${value} ${unit}${value === 1 ? '' : 's'} ago`;
+}
+
+/** Resolves the blame source for an editor, or undefined if blame should not show there. */
+async function blameSourceForEditor(editor: vscode.TextEditor): Promise<Promise<BlameLine[]> | undefined> {
+  const uri = editor.document.uri;
+
+  if (uri.scheme === SCHEME) {
+    const { repoRoot, sha } = JSON.parse(decodeURIComponent(uri.query)) as { repoRoot: string; sha: string };
+    const relPath = uri.path.replace(/^\//, '');
+    const key = `L|${repoRoot}|${sha}|${relPath}`;
+    let blame = blameCache.get(key);
+    if (!blame) {
+      blame = getBlame(repoRoot, relPath, sha).catch(() => [] as BlameLine[]);
+      blameCache.set(key, blame);
+    }
+    return blame;
+  }
+
+  if (uri.scheme === 'file') {
+    // Only annotate a working file when it is the modified side of one of our diffs.
+    const fsPath = uri.fsPath;
+    const inDiff = vscode.window.tabGroups.all.some((group) =>
+      group.tabs.some(
+        (tab) =>
+          tab.input instanceof vscode.TabInputTextDiff &&
+          tab.input.original.scheme === SCHEME &&
+          tab.input.modified.scheme === 'file' &&
+          tab.input.modified.fsPath === fsPath,
+      ),
+    );
+    if (!inDiff) {
+      return undefined;
+    }
+
+    const repoRoot = await resolveRepoRoot(fsPath);
+    if (!repoRoot) {
+      return undefined;
+    }
+    const relPath = toRelativePath(repoRoot, fsPath);
+    const key = `R|${repoRoot}|${relPath}`;
+    let blame = blameCache.get(key);
+    if (!blame) {
+      blame = getBlame(repoRoot, relPath).catch(() => [] as BlameLine[]);
+      blameCache.set(key, blame);
+    }
+    return blame;
+  }
+
+  return undefined;
+}
+
+/** Draws (or clears) the current-line blame annotation for a single editor. */
+async function updateBlameFor(editor: vscode.TextEditor | undefined): Promise<void> {
+  if (!blameDecoration || !editor) {
+    return;
+  }
+
+  const source = await blameSourceForEditor(editor);
+  if (!source) {
+    editor.setDecorations(blameDecoration, []);
+    return;
+  }
+
+  const blame = await source;
+  const line = editor.selection.active.line;
+  const entry = blame[line];
+  if (!entry) {
+    editor.setDecorations(blameDecoration, []);
+    return;
+  }
+
+  const label = entry.uncommitted
+    ? 'You · Uncommitted changes'
+    : `${entry.author}, ${relativeTime(entry.authorTime)} · ${entry.summary}`;
+
+  const eol = editor.document.lineAt(line).text.length;
+  const range = new vscode.Range(line, eol, line, eol);
+  editor.setDecorations(blameDecoration, [
+    { range, renderOptions: { after: { contentText: label } } },
+  ]);
+}
+
+function updateAllVisibleBlame(): void {
+  for (const editor of vscode.window.visibleTextEditors) {
+    void updateBlameFor(editor);
+  }
+}
+
 export function activate(context: vscode.ExtensionContext): void {
   const initial = vscode.window.activeTextEditor;
 
@@ -406,8 +533,25 @@ export function activate(context: vscode.ExtensionContext): void {
   statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
   statusBarItem.command = 'gtm.current';
 
+  blameDecoration = vscode.window.createTextEditorDecorationType({
+    after: {
+      margin: '0 0 0 3em',
+      color: new vscode.ThemeColor('editorCodeLens.foreground'),
+      fontStyle: 'italic',
+    },
+  });
+
   context.subscriptions.push(
     statusBarItem,
+    blameDecoration,
+    vscode.window.onDidChangeTextEditorSelection((event) => {
+      void updateBlameFor(event.textEditor);
+    }),
+    vscode.window.onDidChangeVisibleTextEditors((editors) => {
+      for (const editor of editors) {
+        void updateBlameFor(editor);
+      }
+    }),
     vscode.workspace.registerTextDocumentContentProvider(SCHEME, new RevisionContentProvider()),
     vscode.commands.registerCommand('gtm.prev', goPrevious),
     vscode.commands.registerCommand('gtm.current', showHistory),
@@ -417,6 +561,7 @@ export function activate(context: vscode.ExtensionContext): void {
         lastFileFsPath = editor.document.uri.fsPath;
       }
       void updateContext();
+      void updateBlameFor(editor);
     }),
     vscode.window.tabGroups.onDidChangeTabs((event) => {
       // Closing a revision diff ends that time-travel session: rewind to the
@@ -443,7 +588,10 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.workspace.onDidSaveTextDocument((doc) => {
       // History may have changed; drop the cached session so it reloads on next use.
       sessions.delete(doc.uri.fsPath);
+      // Blame for the working file (and possibly its history) is now stale.
+      blameCache.clear();
       void updateContext();
+      updateAllVisibleBlame();
     }),
   );
 
@@ -453,4 +601,5 @@ export function activate(context: vscode.ExtensionContext): void {
 export function deactivate(): void {
   sessions.clear();
   repoRootCache.clear();
+  blameCache.clear();
 }

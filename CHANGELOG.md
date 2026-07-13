@@ -5,6 +5,25 @@ All notable changes to the **Git Time Machine** extension are documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0.2] - 2026-07-13
+
+### Added
+
+- **Inline current-line blame in diffs** — while viewing a Time Machine diff, the line
+  under the cursor is annotated with `Author, <time> ago · <summary>` in both panes. The
+  historical (left) pane is blamed as of its revision SHA; the working (right) pane is
+  blamed live, with uncommitted lines shown as `You · Uncommitted changes`. Blame is
+  scoped to the extension's own diff editors so it never collides with other blame tools
+  during normal editing.
+- Custom keyboard shortcuts for all three commands (`Ctrl+Alt+,` / `Ctrl+Alt+/` /
+  `Ctrl+Alt+.` on Windows/Linux, `Ctrl+Cmd+…` on macOS), each rebindable via VS Code's
+  Keyboard Shortcuts editor.
+
+### Fixed
+
+- Selecting a revision from the history picker no longer resets the position readout to
+  "At HEAD"; the status bar and picker title now reflect the chosen revision.
+
 ## [1.0.1] - 2026-07-06
 
 ### Added
@@ -48,6 +67,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - History quick-pick to jump to any revision and copy its full SHA.
 - Zero configuration — works in any Git repository.
 
+[1.0.2]: https://github.com/farengeyt451/git-time-machine/releases/tag/v1.0.2
 [1.0.1]: https://github.com/farengeyt451/git-time-machine/releases/tag/v1.0.1
 [1.0.0]: https://github.com/farengeyt451/git-time-machine/releases/tag/v1.0.0
 [0.0.1]: https://github.com/farengeyt451/git-time-machine/releases/tag/v0.0.1

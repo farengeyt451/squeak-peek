@@ -32,7 +32,10 @@
       {
         "command": "gtm.current",
         "title": "Git Time Machine: Show Position in History",
-        "icon": "$(octoface)",
+        "icon": {
+          "light": "images/gtm-cat-light.svg",
+          "dark": "images/gtm-cat-dark.svg"
+        },
         "enablement": "gtm:enabled"
       },
       {
@@ -60,7 +63,27 @@
           "when": "gtm:enabled"
         }
       ]
-    }
+    },
+    "keybindings": [
+      {
+        "command": "gtm.prev",
+        "key": "ctrl+alt+,",
+        "mac": "ctrl+cmd+,",
+        "when": "editorTextFocus && gtm:canPrev"
+      },
+      {
+        "command": "gtm.current",
+        "key": "ctrl+alt+/",
+        "mac": "ctrl+cmd+/",
+        "when": "editorTextFocus && gtm:enabled"
+      },
+      {
+        "command": "gtm.next",
+        "key": "ctrl+alt+.",
+        "mac": "ctrl+cmd+.",
+        "when": "editorTextFocus && gtm:canNext"
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run package",

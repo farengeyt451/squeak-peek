@@ -252,7 +252,7 @@ async function showView(session: Session): Promise<void> {
 /**
  * True while we are programmatically swapping the editor view. Opening a new
  * revision diff replaces (and thus "closes") the previous one, which we must
- * NOT mistake for the user closing the diff — otherwise the position would be
+ * NOT mistake for the user closing the diff - otherwise the position would be
  * reset mid-navigation. Cleared on the next macrotask so any tab events emitted
  * by the open have already been handled.
  */
@@ -364,7 +364,7 @@ async function showHistory(): Promise<void> {
 
   const qp = vscode.window.createQuickPick<HistoryItem>();
   const strip = timelineStrip(session);
-  qp.title = `Git Time Machine — ${positionLabel(session)}${strip ? `   ${strip}` : ''}`;
+  qp.title = `Git Time Machine - ${positionLabel(session)}${strip ? `   ${strip}` : ''}`;
   qp.placeholder = 'Select a revision to open it · use the copy icon to copy its full SHA';
   qp.matchOnDescription = true;
   qp.matchOnDetail = true;

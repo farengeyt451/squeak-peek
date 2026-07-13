@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="images/icon.png" alt="Git Time Machine" width="128" height="128" />
+<img src="https://raw.githubusercontent.com/farengeyt451/git-time-machine/master/images/icon.png" alt="Git Time Machine" width="128" height="128" />
 
 # Git Time Machine
 
@@ -20,6 +20,20 @@
 ## Why Git Time Machine?
 
 I liked the **File History Travel** feature in the GitLens extension, until GitLens became bloatware. This is a reimplementation of that small but useful feature.
+
+## Features
+
+| Feature                   | Description                                                                                                                         |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **Previous Revision**     | Diffs your file against an ever-older revision - each click steps one commit further back in time                                   |
+| **History**               | Opens a picker to jump straight to any revision, copy its full SHA, and see how far behind HEAD you are                             |
+| **Next Revision**         | Steps one revision forward through history                                                                                          |
+| **Status-bar position**   | An ambient `3 behind HEAD (3/12)` readout; hover for the HEAD and current SHAs, or click to open the history picker                 |
+| **Visual timeline**       | The history picker's title shows a compact `○─◉─○ …` strip marking your position among all revisions                                |
+| **Side-by-side diffs**    | The historical revision on the left, your current file on the right                                                                 |
+| **Smart first step**      | With a clean tree, the first **Previous** skips the commit identical to your file; with local changes it diffs against `HEAD` first |
+| **Rename-aware history**  | History is collected with `git log --follow`, so renames are tracked                                                                |
+| **Closing a diff resets** | Shut the diff tab and the next **Previous** starts one commit back again                                                            |
 
 ## Installation
 
@@ -56,6 +70,10 @@ Run `npm run watch` and press **F5** to launch the Extension Development Host.
 
 - Opening a revision from _before_ a rename may fail, because the revision is read using the file's current path.
 - History is read once per file and refreshed when the file is saved.
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for the full list of changes in each release.
 
 ## License
 

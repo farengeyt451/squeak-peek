@@ -17,7 +17,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- **Inline current-line blame in diffs** — while viewing a Time Machine diff, the line
+- **Inline current-line blame in diffs** - while viewing a Time Machine diff, the line
   under the cursor is annotated with `Author, <time> ago · <summary>` in both panes. The
   historical (left) pane is blamed as of its revision SHA; the working (right) pane is
   blamed live, with uncommitted lines shown as `You · Uncommitted changes`. Blame is
@@ -36,7 +36,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- **Status-bar position readout** — an ambient `⟳ N behind HEAD (k/total)` item shows
+- **Status-bar position readout** - an ambient `⟳ N behind HEAD (k/total)` item shows
   where you are in a file's history at a glance; click it to open the history picker.
 - Rich status-bar tooltip showing the HEAD and current revision SHAs.
 - Compact unicode timeline strip (`○─◉─○ …`) in the history picker title.
@@ -73,7 +73,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
   uncommitted changes against `HEAD` first.
 - Rename-aware history via `git log --follow`.
 - History quick-pick to jump to any revision and copy its full SHA.
-- Zero configuration — works in any Git repository.
+- Zero configuration - works in any Git repository.
 
 [1.0.3]: https://github.com/farengeyt451/git-time-machine/releases/tag/v1.0.3
 [1.0.2]: https://github.com/farengeyt451/git-time-machine/releases/tag/v1.0.2

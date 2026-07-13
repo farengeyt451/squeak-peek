@@ -36,14 +36,14 @@ jobs:
         run: npx vsce package --no-dependencies --out "squeak-peek-${{ github.ref_name }}.vsix"
 
       - name: Upload VSIX artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: squeak-peek-${{ github.ref_name }}
           path: '*.vsix'
           if-no-files-found: error
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           name: ${{ github.ref_name }}
           tag_name: ${{ github.ref_name }}

@@ -2,7 +2,7 @@
   "name": "squeak-peek",
   "displayName": "Squeak Peek",
   "description": "Travel through any file's Git history - step backward and forward through commits and diff each revision against your working copy.",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "publisher": "farengeyt451",
   "icon": "images/icon.png",
   "license": "MIT",
@@ -28,7 +28,6 @@
     "vscode": "^1.125.0"
   },
   "categories": [
-    "SCM Providers",
     "Other"
   ],
   "activationEvents": [
@@ -112,7 +111,8 @@
     "check-types": "tsc --noEmit",
     "lint": "eslint src",
     "test": "vscode-test",
-    "package:vsix": "vsce package --no-dependencies"
+    "package:vsix": "vsce package --no-dependencies",
+    "publish:marketplace": "vsce publish --no-dependencies --azure-credential"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",

@@ -38,6 +38,20 @@ I liked the **File History Travel** feature in the GitLens extension, until GitL
 
 ## Installation
 
+### From the VS Code Marketplace
+
+1. Open **Extensions** in VS Code (`Ctrl+Shift+X` / `Cmd+Shift+X`).
+2. Search for **Squeak Peek**.
+3. Click **Install**.
+
+Or install from the command line:
+
+```bash
+code --install-extension farengeyt451.squeak-peek
+```
+
+Marketplace page: [Squeak Peek on the VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=farengeyt451.squeak-peek)
+
 ### From a release (`.vsix`)
 
 1. Download the latest `squeak-peek-vX.Y.Z.vsix` from the [Releases page](https://github.com/farengeyt451/squeak-peek/releases).

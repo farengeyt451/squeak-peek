@@ -58,21 +58,38 @@
         "enablement": "squeakPeek:canNext"
       }
     ],
+    "submenus": [
+      {
+        "id": "squeakPeek.menu",
+        "label": "Squeak Peek",
+        "icon": {
+          "light": "images/squeak-peek-light.svg",
+          "dark": "images/squeak-peek-dark.svg"
+        }
+      }
+    ],
     "menus": {
       "editor/title": [
         {
+          "submenu": "squeakPeek.menu",
+          "group": "navigation@-101",
+          "when": "squeakPeek:enabled"
+        }
+      ],
+      "squeakPeek.menu": [
+        {
           "command": "squeakPeek.prev",
-          "group": "navigation@101",
+          "group": "navigation@1",
           "when": "squeakPeek:enabled"
         },
         {
           "command": "squeakPeek.current",
-          "group": "navigation@102",
+          "group": "navigation@2",
           "when": "squeakPeek:enabled"
         },
         {
           "command": "squeakPeek.next",
-          "group": "navigation@103",
+          "group": "navigation@3",
           "when": "squeakPeek:enabled"
         }
       ]

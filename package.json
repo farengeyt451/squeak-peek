@@ -2,7 +2,7 @@
   "name": "squeak-peek",
   "displayName": "Squeak Peek",
   "description": "Travel through any file's Git history - step backward and forward through commits and diff each revision against your working copy.",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "publisher": "farengeyt451",
   "icon": "images/icon.png",
   "license": "MIT",

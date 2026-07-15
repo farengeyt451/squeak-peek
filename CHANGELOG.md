@@ -5,6 +5,15 @@ All notable changes to the **Squeak Peek** extension are documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0.6] - 2026-07-15
+
+### Changed
+
+- Grouped the **Previous / History / Next** actions into a single Squeak Peek dropdown in
+  the editor title bar. Previously the three buttons could split between the toolbar and
+  the `...` overflow menu depending on available space; they now always stay together
+  under one left-aligned menu.
+
 ## [1.0.5] - 2026-07-14
 
 ### Changed
@@ -88,6 +97,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - History quick-pick to jump to any revision and copy its full SHA.
 - Zero configuration - works in any Git repository.
 
+[1.0.6]: https://github.com/farengeyt451/squeak-peek/releases/tag/v1.0.6
 [1.0.5]: https://github.com/farengeyt451/squeak-peek/releases/tag/v1.0.5
 [1.0.4]: https://github.com/farengeyt451/squeak-peek/releases/tag/v1.0.4
 [1.0.3]: https://github.com/farengeyt451/squeak-peek/releases/tag/v1.0.3
